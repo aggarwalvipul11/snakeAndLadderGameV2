@@ -1,4 +1,3 @@
-  
 #!/bin/bash 
 
 echo "================ Welcome to SNAKES AND LADDERS ================"
@@ -10,6 +9,7 @@ goalOfTheGame=100;
 
 playerLivePosition=0;
 zeroN=0;
+collectDiceRollsWinGame=0;
 
 playerGetsNoPlay=0;
 playerGetsLadder=1;
@@ -26,12 +26,16 @@ function playerPositionTrack() {
 	case $playerOptions in
 		$playerGetsNoPlay)
 			playerLivePosition=$((playerLivePosition+zeroN))
+			echo "After dice rolls, player live positon status is: $playerLivePosition"
 			;;
 		$playerGetsLadder)
 			checksPlayerPositionInCaseOfLadder
+			((collectDiceRollsWinGame++))
+			echo "After dice rolls, player live positon status is: $playerLivePosition"
 			;;
 		$playerGetsSnake)			
 			checksPlayerPositionInCaseOfSnake
+			echo "After dice rolls, player live positon status is: $playerLivePosition"
 			;;
 	esac
 }
@@ -59,7 +63,8 @@ function gameSnakeNLadderControlPanel() {
 	do
 		playerPositionTrack
 	done
+	echo "Report the dice was played by player to win is: $collectDiceRollsWinGame"
 }
 
 gameSnakeNLadderControlPanel
-#End of Use Case 05
+#End of Use Case 06
