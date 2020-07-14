@@ -1,4 +1,3 @@
-  
 #!/bin/bash 
 
 echo "================ Welcome to SNAKES AND LADDERS ================"
