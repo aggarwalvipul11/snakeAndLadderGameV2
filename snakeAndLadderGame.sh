@@ -3,9 +3,14 @@
 echo "================ Welcome to SNAKES AND LADDERS ================"
 
 #Apply values to variables
+<<<<<<< HEAD
 singlePlayer=1;
 positionOfPlayer=0;
 goalOfTheGame=100;
+=======
+SINGLE_PLAYER=1;
+POSITION_OF_PLAYER=0;
+>>>>>>> UseCase01_snakeAndLadderPlayerIntialization
 
 playerLivePosition=0;
 zeroN=0;
