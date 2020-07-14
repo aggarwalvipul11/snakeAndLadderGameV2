@@ -11,6 +11,12 @@ playerLivePosition=0;
 zeroN=0;
 collectDiceRollsWinGame=0;
 
+playerOneGameTrack=0;
+playerTwoGameTrack=0;
+playerOneLivePosition=0;
+playerTwoLivePosition=0;
+tryAgain=0;
+
 playerGetsNoPlay=0;
 playerGetsLadder=1;
 playerGetsSnake=2;
@@ -22,28 +28,55 @@ function playerThrowsDice() {
 
 function playerPositionTrack() {
 	playerOptions=$((RANDOM %3))
+	selectionOfPlayer=$1;
 	randomDiceNumber=$(playerThrowsDice )
+	if [[ $playerOneGameTrack -eq '1' && $tryAgain -eq '0' ]]
+	then
+		playerLivePosition=$((playerOneLivePosition));
+		playerOneGameTrack=0;
+		playerTwoGameTrack=1;
+		playerWhoPlayes="Player1"
+	elif [[ $playerTwoLivePosition -eq '1' && $tryAgain -eq '0' ]]
+	then	
+		playerLivePosition=$((playerTwoLivePosition));
+		playerOneGameTrack=1;
+		playerTwoGameTrack=0;
+		playerWhoPlayes="Player2"
+	elif [[ $playerTwoGameTrack -eq '1' && $tryAgain -eq '1' ]]
+	then
+		playerLivePosition=$((playerOneLivePosition));
+		playerOneGameTrack=0;
+		playerTwoGameTrack=1;
+		tryAgain=0;
+		playerWhoPlayes="Player1"
+	else	
+		playerLivePosition=$((playerTwoLivePosition));
+		playerOneGameTrack=1;
+		playerTwoGameTrack=0;	
+		tryAgain=0;
+		playerWhoPlayes="Player2"
+	fi	
+
 	case $playerOptions in
 		$playerGetsNoPlay)
 			playerLivePosition=$((playerLivePosition+zeroN))
-			echo "After dice rolls, player live positon status is: $playerLivePosition"
 			;;
 		$playerGetsLadder)
 			checksPlayerPositionInCaseOfLadder
 			((collectDiceRollsWinGame++))
-			echo "After dice rolls, player live positon status is: $playerLivePosition"
 			;;
 		$playerGetsSnake)			
 			checksPlayerPositionInCaseOfSnake
-			echo "After dice rolls, player live positon status is: $playerLivePosition"
 			;;
 	esac
+
 }
 
 function checksPlayerPositionInCaseOfLadder() {
 	if [[ $(( $playerLivePosition + $randomDiceNumber )) -gt $goalOfTheGame ]]
 	then
 		playerLivePosition=$((playerLivePosition+zeroN));
+		tryAgain=1;
 	else
 		playerLivePosition=$((playerLivePosition+randomDiceNumber));
 	fi
@@ -59,12 +92,19 @@ function checksPlayerPositionInCaseOfSnake() {
 }
 
 function gameSnakeNLadderControlPanel() {
-	while [[ $playerLivePosition -ne $goalOfTheGame ]]
+	while [[ $playerLivePosition -lt $goalOfTheGame ]]
 	do
 		playerPositionTrack
+		if [[ $playerWhoPlayes == "Player1" ]]
+		then
+			playerOneLivePosition=$playerLivePosition;
+		else
+			playerTwoLivePosition=$playerLivePosition;
+		fi
 	done
+	echo "Player Who Wins the Game is: $playerWhoPlayes"
 	echo "Report the dice was played by player to win is: $collectDiceRollsWinGame"
 }
 
 gameSnakeNLadderControlPanel
-#End of Use Case 06
+#End of Use Case 07
