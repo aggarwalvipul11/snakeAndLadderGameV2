@@ -1,1 +1,1 @@
-# Welcome to then Game Snake and Ladder
+# Welcome to the Game Snake and Ladder
