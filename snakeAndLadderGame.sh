@@ -35,6 +35,23 @@ function playerPositionTrack() {
 	playerOptions=$((RANDOM %3))
 	selectionOfPlayer=$1;
 	randomDiceNumber=$(playerThrowsDice )
+	playersGetChanceToWin
+	case $playerOptions in
+		$playerGetsNoPlay)
+			playerLivePosition=$((playerLivePosition+zeroN))
+			;;
+		$playerGetsLadder)
+			checksPlayerPositionInCaseOfLadder
+			((collectDiceRollsWinGame++))
+			;;
+		$playerGetsSnake)			
+			checksPlayerPositionInCaseOfSnake
+			;;
+	esac
+
+}
+
+function playersGetChanceToWin() {
 	if [[ $playerOneGameTrack -eq '1' && $tryAgain -eq '0' ]]
 	then
 		playerLivePosition=$((playerOneLivePosition));
@@ -60,21 +77,7 @@ function playerPositionTrack() {
 		playerTwoGameTrack=0;	
 		tryAgain=0;
 		playerWhoPlayes="Player2"
-	fi	
-
-	case $playerOptions in
-		$playerGetsNoPlay)
-			playerLivePosition=$((playerLivePosition+zeroN))
-			;;
-		$playerGetsLadder)
-			checksPlayerPositionInCaseOfLadder
-			((collectDiceRollsWinGame++))
-			;;
-		$playerGetsSnake)			
-			checksPlayerPositionInCaseOfSnake
-			;;
-	esac
-
+	fi
 }
 
 function checksPlayerPositionInCaseOfLadder() {
@@ -96,16 +99,20 @@ function checksPlayerPositionInCaseOfSnake() {
 	fi
 }
 
-function gameSnakeNLadderControlPanel() {
-	while [[ $playerLivePosition -lt $goalOfTheGame ]]
-	do
-		playerPositionTrack
-		if [[ $playerWhoPlayes == "Player1" ]]
+function findPlayerPosition() {
+	if [[ $playerWhoPlayes == "Player1" ]]
 		then
 			playerOneLivePosition=$playerLivePosition;
 		else
 			playerTwoLivePosition=$playerLivePosition;
 		fi
+}
+
+function gameSnakeNLadderControlPanel() {
+	while [[ $playerLivePosition -lt $goalOfTheGame ]]
+	do
+		playerPositionTrack
+		findPlayerPosition
 	done
 	echo "Player Who Wins the Game is: $playerWhoPlayes"
 	echo "Report the dice was played by player to win is: $collectDiceRollsWinGame"
