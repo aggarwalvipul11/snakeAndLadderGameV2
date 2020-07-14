@@ -3,7 +3,7 @@
 echo "================ Welcome to SNAKES AND LADDERS ================"
 
 #Apply values to variables
-singlePlayer=1;
-positionOfPlayer=0;
+SINGLE_PLAYER=1;
+POSITION_OF_PLAYER=0;
 
 #End of Use Case 01
