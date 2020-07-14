@@ -6,4 +6,10 @@ echo "================ Welcome to SNAKES AND LADDERS ================"
 singlePlayer=1;
 positionOfPlayer=0;
 
-#End of Use Case 01
+function playerThrowsDice() {
+	randomDiceRolls=$((RANDOM%6+1))
+	echo $randomDiceRolls
+}
+
+playerThrowDice
+#End of Use Case 02
