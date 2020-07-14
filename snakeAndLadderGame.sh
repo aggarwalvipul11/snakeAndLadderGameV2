@@ -5,8 +5,10 @@ echo "================ Welcome to SNAKES AND LADDERS ================"
 #Apply values to variables
 singlePlayer=1;
 positionOfPlayer=0;
+goalOfTheGame=100;
 
 playerLivePosition=0;
+zeroN=0;
 
 playerGetsNoPlay=0;
 playerGetsLadder=1;
@@ -18,22 +20,28 @@ function playerThrowsDice() {
 
 function playerPostionTrack() {
 	playerOptions=$((RANDOM%3))
-	randomDiceNumber=$(playerThrowDice)
+	randomDiceNumber=$((playerThrowDice))
 	case $playerOptions in
 		$playerGetsNoPlay)
-			playerLivePosition=$((playerLivePosition+0))
+			playerLivePosition=$((playerLivePosition+zeroN))
 			;;
 		$playerGetsLadder)
-			playerLivePosition=$(($playerLivePosition+$randomDiceNumber))
+			playerLivePosition=$((playerLivePosition+randomDiceNumber))
 			;;
-		$playerGetsSnake)
-			playerLivePosition=$(($playerLivePosition-$randomDiceNumber))
-			;;
-		*)
-			echo "Game Error, Please try again"
+		$playerGetsSnake)			
+			if [[ $playerLivePosition -lt $randomDiceNumber ]]
+			then
+				playerLivePosition=$((playerLivePosition+zeroN));
+			else
+				playerLivePosition=$((playerLivePosition-randomDiceNumber))
+			fi
 			;;
 	esac
 }
 
-playerPositionTrack
-#End of Use Case 03
+while [[ positionOfPlayer -le goalOfTheGame ]]
+do
+	playerPositionTrack
+done
+
+#End of Use Case 04
